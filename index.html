@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Redux Counter</title>
+</head>
+<body>
+  <p id="display"></p>
+  <button id="inbtn">increment</button>
+  <button id="dcbtn">decrement</button>
+
+  
+  <script src="https://unpkg.com/redux@4.2.1/dist/redux.min.js"></script>
+  <script>
+    const { createStore } = Redux;
+
+    const initialState = { count: 0 };
+
+    function reducer(state = initialState, action) {
+      switch (action.type) {
+        case "DECREMENT":
+          return { ...state, count: state.count - 1 };
+        case "INCREMENT":
+          return { ...state, count: state.count + 1 };
+        default:
+          return state;
+      }
+    }
+
+    const store = createStore(reducer);
+
+    document.getElementById('display').innerHTML = store.getState().count;
+
+    document.getElementById('inbtn').onclick = () =>
+      store.dispatch({ type: "INCREMENT" });
+    document.getElementById('dcbtn').onclick = () =>
+      store.dispatch({ type: "DECREMENT" });
+
+    store.subscribe(() => {
+      document.getElementById('display').innerHTML = store.getState().count;
+    });
+  </script>
+</body>
+</html>
